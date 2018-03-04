@@ -1,5 +1,7 @@
 import { Template } from 'meteor/templating';
-import { Coins } from '../api/coins.js'
+import { Meteor } from 'meteor/meteor';
+import { Coins } from '../api/coins.js';
+import { Transactions } from '../api/transactions.js';
 import { ReactiveDict } from 'meteor/reactive-dict';
 
 global.Buffer = require('buffer').Buffer;
@@ -9,8 +11,9 @@ import './transaction.js'
 
 Template.body.onCreated(function bodyOnCreated() {
   this.state = new ReactiveDict();
-  Meteor.subscribe('coins');
-  Meteor.subscribe('coinmarketcap');
+  console.log(Meteor.subscribe('coins'));
+  console.log(Meteor.subscribe('transactions'));
+
 
   window.Coins= Coins;
 });
@@ -109,6 +112,7 @@ Template.addTransactionForm.events({
       transactionDate: new Date(data.date.value),
       createdAt: new Date(),
     };
+    Meteor.call('transactions.insert', transaction)
     console.log(transaction);
   },
 });

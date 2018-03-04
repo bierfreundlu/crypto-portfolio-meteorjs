@@ -7,6 +7,7 @@ Meteor.startup(() => {
 });
 
 function updateCoinsDB() {
+  // REMOVE INSECURE AND MAKE REDO THIS USING Meteor.call()
   var fetch = require('node-fetch');
   fetch('https://api.coinmarketcap.com/v1/ticker/?limit=5')
     .then(function (res){

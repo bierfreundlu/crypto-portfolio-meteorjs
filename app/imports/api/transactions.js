@@ -12,9 +12,9 @@ if (Meteor.isServer) {
 }
 
 Meteor.methods({
-  'transactions.insert'(data) {
+  'transactions.insert'(transaction) {
       // IMPLEMENT CHECKS
-      //check(coin, String);
+      console.log(check(transaction.coin, String));
       //check(quantity, Number);
 
 
