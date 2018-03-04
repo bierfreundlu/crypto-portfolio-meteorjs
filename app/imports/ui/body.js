@@ -1,0 +1,118 @@
+import { Template } from 'meteor/templating';
+import { Coins } from '../api/coins.js'
+import { ReactiveDict } from 'meteor/reactive-dict';
+
+global.Buffer = require('buffer').Buffer;
+import './body.html';
+import './coin.js'
+import './transaction.js'
+
+Template.body.onCreated(function bodyOnCreated() {
+  this.state = new ReactiveDict();
+  Meteor.subscribe('coins');
+  Meteor.subscribe('coinmarketcap');
+
+  window.Coins= Coins;
+});
+
+
+Template.body.helpers({
+  coins() {
+    /*const instance = Template.instance();
+    if (instance.state.get('hideCompleted')) {
+      return Coins.find({ checked: { $ne: true } }, { sort: { createdAt: -1 } });
+    }
+    return Coins.find({}, {sort: { createdAt: -1 } });
+    */
+
+    // needs to transform the number to currecny style
+    data = Coins.find({}, { sort: { rank: 1 } });
+    //console.log(data)
+    result = [];
+    data.forEach((coin) => {
+      let positive;
+      coin['percent_change_24h'] >= 0 ? positive = true : positive = false;
+      result.push({
+        icon: coin['icon'],
+        name: coin['name'],
+        rank: coin['rank'],
+        symbol: coin['symbol'],
+        price_usd: numberToCurrency(coin['price_usd']),
+        market_cap_usd: numberToCurrency(coin['market_cap_usd']),
+        volume_usd: numberToCurrency(coin['volume_usd']),
+        available_supply: numberToCurrency(coin['available_supply']),
+        percent_change_24h: coin['percent_change_24h'],
+        positive,
+      });
+    });
+    return result;
+  },
+});
+
+Template.welcomeNoUser.helpers({
+  globalMarket() {
+    const fetch = require('node-fetch');
+    var result;
+    console.log('hello');
+    fetch('https://api.coinmarketcap.com/v1/global')
+    .then(function (res) {
+      console.log(2);
+        res.json().then(function (data) {
+            console.log(3);
+            result = {'total_market_cap_usd': numberToCurrency(data['total_market_cap_usd'])};
+          });
+      });
+      //console.log(result);
+    return result;
+  },
+});
+
+/*Template.body.events({
+  'submit .new-coin'(event) {
+    // Prevent default browser form submit
+    event.preventDefault();
+
+    // Get value from form element
+    const target = event.target;
+    const name = target.text.value;
+
+    // Insert a task into the collection
+    Meteor.call('coins.insert', name);
+    // Clear form
+    target.text.value = '';
+  },
+  'change .hide-completed input'(event, instance) {
+  instance.state.set('hideCompleted', event.target.checked);
+},
+'click .test-button'(event) {
+  event.preventDefault();
+  console.log('test button clicked');
+  console.log(event);
+  },
+});
+*/
+
+function numberToCurrency(n) {
+  return n.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+}
+
+Template.addTransactionForm.events({
+  'submit form'(event) {
+    event.preventDefault();
+    console.log('form submitted');
+    console.log(event);
+    let data = event.target;
+    let transaction = {
+      coin: data.coin.value,
+      quantity: data.quantity.value,
+      price: data.price.value,
+      transactionDate: new Date(data.date.value),
+      createdAt: new Date(),
+    };
+    console.log(transaction);
+  },
+});
+
+Template.addTransactionForm.rendered=function() {
+	$('#inputDate').datepicker();
+}

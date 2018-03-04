@@ -1,0 +1,48 @@
+
+<template name="coin">
+  <li class="media border-bottom {{#if checked}}checked{{/if}}">
+    <img class="mr-3 currency-icon" src="{{ icon }}" alt="asd">
+
+    <div class="media-body">
+      <div class="row">
+        <div class="col-sm">
+          <p>{{rank}}. {{symbol}} | {{name}}</p>
+        </div>
+
+        {{#if currentUser}}
+          <div class="col-sm">
+            <p>{{holding}}</p>
+          </div>
+          <div class="col-sm">
+            <p>{{value}}</p>
+          </div>
+          <div class="col-sm">
+            <p>{{profit}}</p>
+          </div>
+        {{else}}
+        <div class="col-sm">
+          <p>${{market_cap_usd}}</p>
+        </div>
+        <div class="col-sm">
+          <p>${{volume_usd}}</p>
+        </div>
+        <div class="col-sm">
+          <p>{{available_supply}} {{symbol}}</p>
+        </div>
+        {{/if}}
+
+        <div class="col-sm">
+          <p class="{{#if positive}}text-success{{else}}text-danger{{/if}}">${{price_usd}}</p>
+        </div>
+        <div class="col-sm">
+          <p class="{{#if positive}}text-success{{else}}text-danger{{/if}}">{{percent_change_24h}}%</p>
+        </div>
+        <!--
+        <button class="delete">&times;</button>
+        <input type="checkbox" checked="{{checked}}" class="toggle-checked" />
+      -->
+      </div>
+
+    </div>
+  </li>
+</template>

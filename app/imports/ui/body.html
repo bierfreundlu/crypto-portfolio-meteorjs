@@ -1,0 +1,200 @@
+<body>
+  <nav class="navbar navbar-light bg-light">
+    <a class='navbar-brand'>Portfolio</a>
+    {{#if currentUser}}
+      Welcome {{currentUser.username}}
+    {{/if}}
+    {{> loginButtons}}
+  </nav>
+  <div class="top-frame">
+    <div class="container">
+      <div class="col-xs-12" style="height:75px;"></div>
+      <div class="row">
+
+      </div>
+      {{#if currentUser}}
+        {{> welcomeUser}}
+      {{else}}
+        {{> welcomeNoUser}}
+      {{/if}}
+    </div>
+  </div>
+
+
+  <div class="col-xs-12" style="height:20px;"></div>
+
+
+  {{#if currentUser}}
+    {{> addTransactionForm}}
+  {{/if}}
+<div class="col-xs-12" style="height:20px;"></div>
+  <!-- Portfolio list -->
+  <div class="container">
+      <div class="container">
+          <ul class="list-unstyled">
+            <li class="media border-bottom">
+              <img class="mr-3 currency-icon" src="" alt="">
+              <div class="media-body">
+                <div class="row" id="list-header">
+                  {{#if currentUser}}
+                    {{> portfolioHeader}}
+                  {{else}}
+                    {{> generalHeader}}
+                  {{/if}}
+                </div>
+              </div>
+            </li>
+            {{#each coins}}
+              {{> coin}}
+            {{/each}}
+          </ul>
+
+          <ul>
+            {{#if currentUser}}
+              {{#each transactions}}
+                <li>{{transaction}}</li>
+              {{/each}}
+            {{/if}}
+          </ul>
+
+<!--
+    <header>
+      <h1>Todo List</h1>
+    </header>
+
+    <form class="new-task">
+      <input type="text" name="text" placeholder="Type to add new tasks" />
+    </form>
+
+    <ul>
+      {{#each tasks}}
+        {{> task}}
+      {{/each}}
+    </ul>
+-->
+
+    <label class="hide-completed">
+        <input type="checkbox" />
+        Hide Completed Tasks
+        {{incompleteCount}}
+    </label>
+    {{#if currentUser}}
+      <form class="new-coin">
+        <input type="text" name="text" placeholder="Add coin" />
+      </form>
+    {{/if}}
+      <ul class="list-group">
+      </ul>
+  </div>
+  </div>
+    <img src="beach.jpg" alt="">
+  <div class="bottom-frame">
+
+  </div>
+
+</body>
+
+
+<template name="c">
+  <li class="media border-bottom {{#if checked}}checked{{/if}}">
+    <img class="mr-3 currency-icon" src='{{ icon }}' alt="Icon">}}
+    <div class="media-body">
+      <div class="row">
+        <div class="col-sm">
+          <p>{{name}}</p>
+        </div>
+        <div class="col-sm">
+          <p>{{holding}}</p>
+        </div>
+        <div class="col-sm">
+          <p>{{value}}</p>
+        </div>
+        <div class="col-sm">
+          <p>{{profit}}</p>
+        </div>
+        <div class="col-sm">
+          <p class="text-success">{{price_usd}}</p>
+        </div>
+        <div class="col-sm">
+          <p class="text-success">{{percent_change_24h}}%</p>
+        </div>
+        <button class="delete">&times;</button>
+        <input type="checkbox" checked="{{checked}}" class="toggle-checked" />
+      </div>
+    </div>
+  </li>
+</template>
+
+<template name='portfolioHeader'>
+  <div class="col-sm">
+    <p>Crypto Currency</p>
+  </div>
+  <div class="col-sm">
+    <p>Holding</p>
+  </div>
+  <div class="col-sm">
+    <p>Value</p>
+  </div>
+  <div class="col-sm">
+    <p>Profit</p>
+  </div>
+  <div class="col-sm">
+    <p>Price</p>
+  </div>
+  <div class="col-sm">
+    <p>24h</p>
+  </div>
+</template>
+
+<template name="generalHeader">
+  <div class="col-sm">
+    <p>Crypto Currency</p>
+  </div>
+  <div class="col-sm">
+    <p>Market Cap</p>
+  </div>
+  <div class="col-sm">
+    <p>Volume (24h)</p>
+  </div>
+  <div class="col-sm">
+    <p>Circulating Supply</p>
+  </div>
+  <div class="col-sm">
+    <p>Price</p>
+  </div>
+  <div class="col-sm">
+    <p>24h</p>
+  </div>
+</template>
+
+<template name="welcomeUser">
+  <div class="row">
+    <h1 class="display-4 text-white" style="font-size: 3em;">$1.460</h1>
+  </div>
+  <div class="row">
+    <h1 class="display-4 text-white" style="font-size: 2em;">Current Portfolio Value</h1>
+  </div>
+  <div class="col-xs-12" style="height:15px;"></div>
+  <div class="row">
+    <h1 class="display-4 text-white" style="font-size: 3em;">89%</h1>
+  </div>
+  <div class="row">
+    <h1 class="display-4 text-white" style="font-size: 2em;">Total Profit</h1>
+  </div>
+</template>
+
+<template name="welcomeNoUser">
+  <div class="row">
+    <h1 class="display-4 text-white" style="font-size: 3em;">Track your Crypto Currency Portfolio</h1>
+  </div>
+  <div class="row">
+    <h1 class="display-4 text-white" style="font-size: 2em;">Lorem Ipsum est</h1>
+  </div>
+  <div class="col-xs-12" style="height:15px;"></div>
+  <div class="row">
+    <h1 class="display-4 text-white" style="font-size: 3em;">${{globalMarket.total_market_cap_usd}}</h1>
+  </div>
+  <div class="row">
+    <h1 class="display-4 text-white" style="font-size: 2em;">Total Crypto Market Capitalization</h1>
+  </div>
+</template>

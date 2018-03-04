@@ -1,0 +1,74 @@
+
+<template name="addTransactionForm">
+  <div class="container">
+    <div class="row justify-content-end">
+      <!-- Button trigger modal -->
+      <div class="btn-group" role="group" aria-label="Basic example">
+        <button type="button" class="btn button-color text-white">$</button>
+        <button type="button" class="btn button-color text-white">%</button>
+      </div>
+      <div class="col-1">
+        <button type="button" class="btn button-color text-white" data-toggle="modal" data-target="#exampleModal">
+          Add transaction
+        </button>
+      </div>
+      <div class="col-1">
+
+      </div>
+
+    </div>
+
+    <!-- modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <form>
+
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add a new transaction</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+            <div class="modal-body">
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="inputCoin">Coin</label>
+                  <!-- <input type="text" class="form-control" name="coin" id="inputCoin" placeholder="Coin"> -->
+
+
+                  <select class="form-control" name="coin" id="inputCoin">
+                    <option value="BTC">BTC | Bitcoin</option>
+                    <option value="ETH">ETH | Ethereum</option>
+                    <option value="LTC">LTC | Litecoin</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="inputQuantity">Quantity</label>
+                  <input type="text" class="form-control" name="quantity" id="inputQuantity" placeholder="Quantity">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="inputPrice">USD Price</label>
+                  <input type="text" class="form-control" name="price" id="inputPrice" placeholder="Price">
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="inputDate">Date</label>
+                  <!-- <input type="text" class="form-control" name="date" id="inputDate" placeholder="Transaction Date"> -->
+                  <input type="text" class="form-control" name="date" id="inputDate" placeholder="Transaction Date">
+                </div>
+              </div>
+              </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary button-color add-transaction">Add Transaction</button>
+            </div>
+          </form>
+          </div>
+        </div>
+      </div>
+  </div>
+</template>
