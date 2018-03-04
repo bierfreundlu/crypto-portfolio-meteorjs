@@ -1,10 +1,12 @@
 import { Meteor } from 'meteor/meteor';
 import { Coins } from '../imports/api/coins.js';
+import '../imports/api/transactions.js';
 
 Meteor.startup(() => {
   // code to run on server at startup
   //updateCoinsDB();
 });
+
 
 function updateCoinsDB() {
   // REMOVE INSECURE AND MAKE REDO THIS USING Meteor.call()

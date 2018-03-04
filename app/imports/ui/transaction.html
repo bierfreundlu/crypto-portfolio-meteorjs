@@ -46,6 +46,9 @@
                 </div>
                 <div class="form-group col-md-6">
                   <label for="inputQuantity">Quantity</label>
+                  {{#if err.quantityInputError}}
+                    <label for="inputQuantity" class="text-danger"> - Expected a number</label>
+                  {{/if}}
                   <input type="text" class="form-control" name="quantity" id="inputQuantity" placeholder="Quantity">
                 </div>
               </div>

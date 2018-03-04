@@ -18,6 +18,9 @@ Template.body.onCreated(function bodyOnCreated() {
   window.Coins= Coins;
 });
 
+Template.addTransactionForm.onCreated(function bodyOnCreated() {
+  this.state = new ReactiveDict();
+});
 
 Template.body.helpers({
   coins() {
@@ -49,6 +52,21 @@ Template.body.helpers({
       });
     });
     return result;
+  },
+  errors() {
+    const instance = Template.instance();
+    if (instance.state.get('quantityInputError')) {
+      var err = {
+        quantityInputError: true,
+        priceInputError: false,
+      };
+      return err;
+    }
+    var err = {
+      quantityInputError: false,
+      priceInputError: false,
+    };
+    return err;
   },
 });
 
@@ -100,15 +118,19 @@ function numberToCurrency(n) {
 }
 
 Template.addTransactionForm.events({
-  'submit form'(event) {
+  'submit form'(event, instance) {
     event.preventDefault();
     console.log('form submitted');
     console.log(event);
     let data = event.target;
+
+    //NEED TO FIGURE OUT HOW TO SET THE STATE OF THE BODY TEMPLATE TO DISPLAY AN ERROR IF THE INPUTED DATA DOESNT MATCH
+    //console.log(Template.body.instance.state.set('quantityInputError', true));
+
     let transaction = {
       coin: data.coin.value,
-      quantity: data.quantity.value,
-      price: data.price.value,
+      quantity: parseInt(data.quantity.value),
+      price: parseInt(data.price.value),
       transactionDate: new Date(data.date.value),
       createdAt: new Date(),
     };

@@ -11,18 +11,20 @@ if (Meteor.isServer) {
   });
 }
 
+
+
 Meteor.methods({
   'transactions.insert'(transaction) {
       // IMPLEMENT CHECKS
       console.log(check(transaction.coin, String));
-      //check(quantity, Number);
+      check(transaction.quantity, Number);
 
 
       // Make sure the user is logged in before inserting a task
       if (! Meteor.userId()) {
         throw new Meteor.Error('not-authorized');
       }
-      console.log(data);
+      console.log(transaction);
       /*Transactions.insert({
         price: data['price'],
         quantity: data['quantity'],
@@ -39,7 +41,6 @@ Meteor.methods({
       Transactions.remove(taskId);
     },
 });
-
 
 /*
 if (Meteor.isServer) {

@@ -19,13 +19,15 @@ Meteor.methods({
       if (! Meteor.userId()) {
         throw new Meteor.Error('not-authorized');
       }
-
+      
+      /*
       Coins.insert({
         name,
         createdAt: new Date(),
         owner: Meteor.userId(),
         username: Meteor.user().username,
       });
+      */
     },
     'coins.remove'(taskId) {
       check(taskId, String);
