@@ -15,6 +15,8 @@ if (Meteor.isServer) {
 
 Meteor.methods({
   'transactions.insert'(transaction) {
+      console.log("Inside meteor method: transaction.insert");
+
       // IMPLEMENT CHECKS
       console.log(check(transaction.coin, String));
       check(transaction.quantity, Number);

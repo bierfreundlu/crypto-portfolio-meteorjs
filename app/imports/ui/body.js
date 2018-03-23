@@ -10,16 +10,12 @@ import './coin.js'
 import './transaction.js'
 
 Template.body.onCreated(function bodyOnCreated() {
-  this.state = new ReactiveDict();
+  //this.state = new ReactiveDict();
   console.log(Meteor.subscribe('coins'));
   console.log(Meteor.subscribe('transactions'));
 
 
   window.Coins= Coins;
-});
-
-Template.addTransactionForm.onCreated(function bodyOnCreated() {
-  this.state = new ReactiveDict();
 });
 
 Template.body.helpers({
@@ -117,6 +113,22 @@ function numberToCurrency(n) {
   return n.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
 }
 
+
+Template.addTransactionForm.onCreated(function bodyOnCreated() {
+  this.state = new ReactiveDict();
+  this.state.set('quantityInputError', false);
+  this.state.set('priceInputError', false);
+});
+
+Template.addTransactionForm.helpers({
+  quantityInputError: function() {
+    return Template.instance().state.get('quantityInputError');
+  },
+  priceInputError: function() {
+    return Template.instance().state.get('priceInputError');
+  },
+});
+
 Template.addTransactionForm.events({
   'submit form'(event, instance) {
     event.preventDefault();
@@ -134,11 +146,27 @@ Template.addTransactionForm.events({
       transactionDate: new Date(data.date.value),
       createdAt: new Date(),
     };
-    Meteor.call('transactions.insert', transaction)
-    console.log(transaction);
+
+    if (isNaN(transaction.quantity)) {
+      instance.state.set('quantityInputError', true);
+    } else {
+      instance.state.set('quantityInputError', false);
+    }
+
+    if (isNaN(transaction.price)) {
+      instance.state.set('priceInputError', true);
+    } else {
+      instance.state.set('priceInputError', false);
+    }
+    
+    if (!(instance.state.get('quantityInputError')) && !(instance.state.get('priceInputError')) && !(transaction.transactionDate == 'Invalid Date')) {
+      console.log('values are not NaN');
+      Meteor.call('transactions.insert', transaction)
+      console.log(transaction);;
+    };
   },
 });
 
 Template.addTransactionForm.rendered=function() {
 	$('#inputDate').datepicker();
-}
+};
